@@ -53,13 +53,13 @@ export function jump(state) {
   };
 }
 
-function createObstacle(width, height) {
+function createObstacle(width) {
   const kind = Math.random() > 0.5 ? "car" : "cone";
   const obstacleWidth = kind === "car" ? 54 : 34;
   const obstacleHeight = kind === "car" ? 34 : 44;
 
   return {
-    x: width + 40,
+    x: width + 40 + Math.random() * 80,
     width: obstacleWidth,
     height: obstacleHeight,
     kind,
@@ -117,8 +117,15 @@ export function stepGameState(state, dt = 1 / 60) {
   let nextObstacleList = nextObstacles;
 
   if (nextSpawnTimer <= 0) {
-    nextObstacleList = [...nextObstacleList, createObstacle(state.width, state.height)];
-    nextSpawnTimer = 1.35 - Math.min(0.65, state.score / 1000);
+    nextObstacleList = [...nextObstacleList, createObstacle(state.width)];
+
+    if (Math.random() < 0.22) {
+      nextObstacleList = [...nextObstacleList, createObstacle(state.width + 120)];
+    }
+
+    const baseGap = 1.25 - Math.min(0.45, state.score / 1400);
+    const jitter = (Math.random() - 0.5) * 0.5;
+    nextSpawnTimer = Math.max(0.6, baseGap + jitter);
   }
 
   const collision = nextObstacleList.some((obstacle) => intersects(nextPlayer, obstacle, state.groundY));
