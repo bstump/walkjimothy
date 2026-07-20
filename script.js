@@ -5,9 +5,11 @@ const ctx = canvas.getContext("2d");
 const scoreLabel = document.getElementById("score");
 const bestLabel = document.getElementById("best");
 
-const playerImages = [new Image(), new Image()];
+const playerImages = [new Image(), new Image(), new Image(), new Image()];
 playerImages[0].src = "./jimothy_1.png";
 playerImages[1].src = "./jimothy_2.png";
+playerImages[2].src = "./jimothy_3.png";
+playerImages[3].src = "./jimothy_4.png";
 
 let state = createInitialState(canvas.width, canvas.height);
 let lastTime = 0;
